@@ -15,4 +15,3 @@ print(block.chain,end='\n')
 block.new_block(proof = block.proof_of_work(block.last_block['proof']))
 print(block.chain,end='\n')
 
-
