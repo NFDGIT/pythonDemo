@@ -1,7 +1,9 @@
 import hashlib
 import json
-from time import time
 
+from uuid import uuid4
+from time import time
+from flask import Flask
 
 class Blockchain(object):
     def __init__(self):
@@ -102,4 +104,6 @@ class Blockchain(object):
         print(f'{last_proof}+{proof}hash:{guess_hash}')
         return guess_hash[:4] == "0000"
 
- 
+
+
+
