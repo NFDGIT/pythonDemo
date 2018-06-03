@@ -1,11 +1,11 @@
-#!/usr/bin/python3
+
 import blockchain
 import json
 
 from uuid import uuid4
 from flask import Flask,jsonify,request
 
-# isinstance our node
+# isinstance our node  #!/usr/bin/python3
 app = Flask(__name__)
 
 indentifier = str(uuid4()).replace("-","")
@@ -47,7 +47,7 @@ def chain():
    return json.dumps(blockchain.chain)
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0',port=5000)
+    app.run(host='0.0.0.0',port=5000,debug=True)
 
 
 # 注册节点
