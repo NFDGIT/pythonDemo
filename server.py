@@ -1,12 +1,17 @@
+# -*- coding: utf-8 -*
 
 import blockchain
 import json
+import os
+from flask import send_from_directory
 
 from uuid import uuid4
 from flask import Flask,jsonify,request
 
 # isinstance our node  #!/usr/bin/python3
-app = Flask(__name__)
+# app = Flask(__name__)
+
+app = Flask(__name__, static_url_path='')
 
 indentifier = str(uuid4()).replace("-","")
 
@@ -45,6 +50,13 @@ def new_transaction():
 @app.route('/chain',methods = ['GET',"POST"])
 def chain():
    return json.dumps(blockchain.chain)
+
+
+
+@app.route('/')
+def index():
+    return app.send_static_file('html/index.html')  
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0',port=5000,debug=True)
