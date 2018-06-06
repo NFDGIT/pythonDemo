@@ -18,6 +18,10 @@ indentifier = str(uuid4()).replace("-","")
 blockchain =  blockchain.Blockchain()
 
 
+@app.route('/getName',methods=['GET'])
+def getName():
+    return "penghui",200
+
 # 挖矿
 @app.route('/mine',methods = ['GET','POST'])
 def mine():
@@ -26,7 +30,7 @@ def mine():
    blockchain.new_transaction(sender="0",recipient=indentifier,amount=1)
 
    blockchain.new_block(nextProof)
-   return json.dumps(blockchain.chain)
+   return json.dumps(blockchain.chain),200
 
 
 # 交易
@@ -100,5 +104,8 @@ def consensus():
         }
 
     return jsonify(response), 200   
+
+
+
 
 

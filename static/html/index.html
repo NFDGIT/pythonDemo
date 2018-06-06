@@ -5,10 +5,37 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>台球游戏</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
-    <script src="main.js"></script>
+    <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="main.js"></script> -->
+
+    <script src="https://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("button").click(function(){
+                $.get("/mine",
+                        function(data,status){
+	 		               // alert("数据: " + data + "\n状态: " + status);
+                        //   alert('fdkafjds');
+                        //   console.log("kejkfk");
+                        alert(data);
+	         	        }
+                );
+            
+
+                // alert();
+                // $("p").hide();
+            });
+        });
+    </script>
 </head>
 <body>
     <p>台球游戏</p>
+    <button >f<button>
+    <form action="/mine" method="get" id="frm-reg" >
+       <input  type="submit" value="挖矿"  id="sub" >
+    </form>
+
+
 </body>
+
 </html>
