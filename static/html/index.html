@@ -10,14 +10,27 @@
 
     <script src="https://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
     <script>
+        function refreshUI(data) {
+            var obj = JSON.parse(data);
+
+
+            for (let i = 0; i < obj.length; i++) {
+                const element = obj[i];
+                const jsonS = JSON.stringify(element);
+                $("#content").append(jsonS + "</br></br></br>");
+            }
+
+
+        }
         $(document).ready(function(){
-            $("button").click(function(){
+            $("#wakuang").click(function(){
                 $.get("/mine",
                         function(data,status){
 	 		               // alert("数据: " + data + "\n状态: " + status);
                         //   alert('fdkafjds');
                         //   console.log("kejkfk");
-                        alert(data);
+                        // alert(data);
+                        refreshUI(data);
 	         	        }
                 );
             
@@ -30,10 +43,9 @@
 </head>
 <body>
     <p>台球游戏</p>
-    <button >f<button>
-    <form action="/mine" method="get" id="frm-reg" >
-       <input  type="submit" value="挖矿"  id="sub" >
-    </form>
+    <div id="content" >f<div>
+
+    <button id="wakuang">挖矿</button>
 
 
 </body>

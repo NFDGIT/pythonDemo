@@ -53,7 +53,7 @@ def new_transaction():
 # 获取整个区块链数据
 @app.route('/chain',methods = ['GET',"POST"])
 def chain():
-   return json.dumps(blockchain.chain)
+   return json.dumps(blockchain.chain),200
 
 
 
