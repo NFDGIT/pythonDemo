@@ -21,7 +21,6 @@ port = 6973
 
 s.connect((host, port))
 
-
 while True:
     # 接收小于 1024 字节的数据
     senS = input("请输入：")
