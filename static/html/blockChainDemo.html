@@ -10,43 +10,66 @@
 
     <script src="https://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
     <script>
-        function refreshUI(data) {
-            var obj = JSON.parse(data);
-
-
-            for (let i = 0; i < obj.length; i++) {
-                const element = obj[i];
-                const jsonS = JSON.stringify(element);
-                $("#content").append(jsonS + "</br></br></br>");
-            }
-
-
+        function mine(){
+            $.get("/mine",function (data,status) {
+                var obj = JSON.parse(data); 
+                code = obj['code'];
+                msg = obj['message'];
+                if (code == '1') {
+                    refreshData();
+                }
+                alert(msg);
+            })
         }
-        $(document).ready(function(){
-            $("#wakuang").click(function(){
-                $.get("/mine",
-                        function(data,status){
+        function refreshData() {
+            $.get("/chain",
+                    function(data,status){
 	 		               // alert("数据: " + data + "\n状态: " + status);
                         //   alert('fdkafjds');
                         //   console.log("kejkfk");
                         // alert(data);
-                        refreshUI(data);
-	         	        }
-                );
+                    refreshUI(data);
+	         	    }
+            ); 
+        }
+
+        function refreshUI(data) {
+            var obj = JSON.parse(data);
             
 
-                // alert();
-                // $("p").hide();
+            $("#contentView").html("");
+            for (let i = 0; i < obj.length; i++) {
+                const element = obj[i];
+                const jsonS = JSON.stringify(element);
+                $("#contentView").append(jsonS + "</br></br></br>");
+            }
+        }
+        $(document).ready(function(){
+            refreshData();
+
+            $("#wakuang").click(function(){
+                mine();
+
+                // $.get("/mine",
+                //         function(data,status){
+	 		    //            // alert("数据: " + data + "\n状态: " + status);
+                //         //   alert('fdkafjds');
+                //         //   console.log("kejkfk");
+                //         // alert(data);
+                //         refreshUI(data);
+	         	//         }
+                // );
+
             });
         });
     </script>
 </head>
 <body>
-    <p>台球游戏</p>
-    <div id="content" >f<div>
+    <p>区块链项目</p>
+
 
     <button id="wakuang">挖矿</button>
-
+    <div id="contentView" >f<div></div>
 
 </body>
 

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*
 
-import blockchain
+from python import blockchain
 import json
 import os
 from flask import send_from_directory
@@ -30,7 +30,8 @@ def mine():
    blockchain.new_transaction(sender="0",recipient=indentifier,amount=1)
 
    blockchain.new_block(nextProof)
-   return json.dumps(blockchain.chain),200
+   response = {'code':'1','message':'挖矿成功'}
+   return json.dumps(response),200
 
 
 # 交易
