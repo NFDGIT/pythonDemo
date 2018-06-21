@@ -9,11 +9,11 @@ import sys
 serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
 
 # 获取本地主机名
-# host = socket.gethostname()
+host = socket.gethostname()
 host = "127.0.0.1"
-print(host)
-port = 6969
-print(port)
+
+port = 6973
+
 # 绑定端口号
 serversocket.bind((host, port))
 
@@ -28,4 +28,11 @@ while True:
     
     msg='欢迎访问菜鸟教程！'+ "\r\n"
     clientsocket.send(msg.encode('utf-8'))
-    clientsocket.close()
+
+    while True:
+        ms = clientsocket.recv(1024)
+        print(ms.decode('utf-8'))
+        # clientsocket.send(ms.encode('utf-8'))
+
+
+clientsocket.close()
