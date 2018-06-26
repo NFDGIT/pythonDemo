@@ -11,142 +11,64 @@
 
         $(document).ready(function() {
             setInterval("cursort()",3000);
-
-
         });
         function cursort() {
-            // alert(getCursortPosition());
             var dom = document.getElementById("conten");
-            setCaretPosition(dom,10);
-
-            $("#conten").append(getCursortPosition(dom))
-        }
+            var posion =getCursortPosition(dom);
+            $("#conten").append(posion);
+            setCaretPosition(dom,posion + 1);
+            
+        };
         
+//获取当前光标位置
+const getCursortPosition = function (element) {
+  var caretOffset = 0;
+  var doc = element.ownerDocument || element.document;
+  var win = doc.defaultView || doc.parentWindow;
+  var sel;
+  if (typeof win.getSelection != "undefined") {//谷歌、火狐
+    sel = win.getSelection();
+    if (sel.rangeCount > 0) {//选中的区域
+      var range = win.getSelection().getRangeAt(0);
+      var preCaretRange = range.cloneRange();//克隆一个选中区域
+      preCaretRange.selectNodeContents(element);//设置选中区域的节点内容为当前节点
+      preCaretRange.setEnd(range.endContainer, range.endOffset);  //重置选中区域的结束位置
+      caretOffset = preCaretRange.toString().length;
+    }
+  } else if ((sel = doc.selection) && sel.type != "Control") {//IE
+    var textRange = sel.createRange();
+    var preCaretTextRange = doc.body.createTextRange();
+    preCaretTextRange.moveToElementText(element);
+    preCaretTextRange.setEndPoint("EndToEnd", textRange);
+    caretOffset = preCaretTextRange.text.length;
+  }
+  return caretOffset;
+}
+//设置光标位置
+const setCaretPosition = function (element, pos) {
+  var range, selection;
+  if (document.createRange)//Firefox, Chrome, Opera, Safari, IE 9+
+  {
+    range = document.createRange();//创建一个选中区域
+    range.selectNodeContents(element);//选中节点的内容
+    if(element.innerHTML.length > 0) {
+      range.setStart(element.childNodes[0], pos); //设置光标起始为指定位置
+    }
+    range.collapse(true);       //设置选中区域为一个点
+    selection = window.getSelection();//获取当前选中区域
+    selection.removeAllRanges();//移出所有的选中范围
+    selection.addRange(range);//添加新建的范围
+  }
+  else if (document.selection)//IE 8 and lower
+  {
+    range = document.body.createTextRange();//Create a range (a range is a like the selection but invisible)
+    range.moveToElementText(element);//Select the entire contents of the element with the range
+    range.collapse(false);//collapse the range to the end point. false means collapse to end rather than the start
+    range.select();//Select the range (make it the visible selection
+  }
+}
 
-        // 获取光标位置
-        function getCursortPosition (obj) {
-            var cursorIndex= 0;
-            if (document.selection) {
-                // IE Support
-                obj.focus ();
-                var range= document.selection.createRange();
-                range.moveStart ('character', -obj.value.length);
-                cursorIndex= range.text.length;
-                alert();
-            }else if (obj.selectionStart || obj.selectionStart==0) {
-                // another support
-                cursorIndex= obj.selectionStart;
-         
-            }
 
-            return cursorIndex;
-        }
-
-// 设置光标位置
-function setCaretPosition(textDom, pos){
-    if(textDom.setSelectionRange) {
-        // IE Support
-        textDom.focus();
-        textDom.setSelectionRange(pos, pos);
-    }else if (textDom.createTextRange) {
-        // Firefox support
-        var range = textDom.createTextRange();
-        range.collapse(true);
-        range.moveEnd('character', pos);
-        range.moveStart('character', pos);
-        range.select();
-    }
-}
-// 获取选中文字
-function getSelectText() {
-    var userSelection, text;
-    if (window.getSelection) {
-        // Firefox support
-        userSelection = window.getSelection();
-    } else if (document.selection) {
-        // IE Support
-        userSelection = document.selection.createRange();
-    }
-    if (!(text = userSelection.text)) {
-        text = userSelection;
-    }
-    return text;
-}
-/**
-* 选中特定范围的文本
-* 参数：
-*     textDom  [JavaScript DOM String] 当前对象
-*     startPos  [Int]  起始位置
-*     endPos  [Int]  终点位置
-*/
-function setSelectText(textDom, startPos, endPos) {
-    var startPos = parseInt(startPos),
-        endPos = parseInt(endPos),
-        textLength = textDom.value.length;
-    if(textLength){
-        if(!startPos){
-            startPos = 0;
-        }
-        if(!endPos){
-            endPos = textLength;
-        }
-        if(startPos > textLength){
-            startPos = textLength;
-        }
-        if(endPos > textLength){
-            endPos = textLength;
-        }
-        if(startPos < 0){
-            startPos = textLength + startPos;
-        }
-        if(endPos < 0){
-            endPos = textLength + endPos;
-        }
-        if(textDom.createTextRange){
-            // IE Support
-            var range = textDom.createTextRange();
-            range.moveStart("character",-textLength);
-            range.moveEnd("character",-textLength);
-            range.moveStart("character", startPos);
-            range.moveEnd("character",endPos);
-            range.select();
-        }else{
-            // Firefox support
-            textDom.setSelectionRange(startPos, endPos);
-            textDom.focus();
-        }
-    }
-}
-/**
-* 在光标后插入文本
-* 参数：
-*     textDom  [JavaScript DOM String] 当前对象
-*     value  [String]  要插入的文本
-*/
-function insertAfterText(textDom, value) {
-    var selectRange;
-    if (document.selection) {
-        // IE Support
-        textDom.focus();
-        selectRange = document.selection.createRange();
-        selectRange.text = value;
-        textDom.focus();
-    }else if (textDom.selectionStart || textDom.selectionStart == '0') {
-        // Firefox support
-        var startPos = textDom.selectionStart;
-        var endPos = textDom.selectionEnd;
-        var scrollTop = textDom.scrollTop;
-        textDom.value = textDom.value.substring(0, startPos) + value + textDom.value.substring(endPos, textDom.value.length);
-        textDom.focus();
-        textDom.selectionStart = startPos + value.length;
-        textDom.selectionEnd = startPos + value.length;
-        textDom.scrollTop = scrollTop;
-    }
-    else {
-        textDom.value += value;
-        textDom.focus();
-    }
-}
     
     </script>
 
