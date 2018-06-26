@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>富文本编辑器</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="https://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
+    <script>
+
+        $(document).ready(function() {
+            setInterval("cursort()",3000);
+
+
+        });
+        function cursort() {
+            // alert(getCursortPosition());
+            var dom = document.getElementById("conten");
+            setCaretPosition(dom,10);
+
+            $("#conten").append(getCursortPosition(dom))
+        }
+        
+
+        // 获取光标位置
+        function getCursortPosition (obj) {
+            var cursorIndex= 0;
+            if (document.selection) {
+                // IE Support
+                obj.focus ();
+                var range= document.selection.createRange();
+                range.moveStart ('character', -obj.value.length);
+                cursorIndex= range.text.length;
+                alert();
+            }else if (obj.selectionStart || obj.selectionStart==0) {
+                // another support
+                cursorIndex= obj.selectionStart;
+         
+            }
+
+            return cursorIndex;
+        }
+
+// 设置光标位置
+function setCaretPosition(textDom, pos){
+    if(textDom.setSelectionRange) {
+        // IE Support
+        textDom.focus();
+        textDom.setSelectionRange(pos, pos);
+    }else if (textDom.createTextRange) {
+        // Firefox support
+        var range = textDom.createTextRange();
+        range.collapse(true);
+        range.moveEnd('character', pos);
+        range.moveStart('character', pos);
+        range.select();
+    }
+}
+// 获取选中文字
+function getSelectText() {
+    var userSelection, text;
+    if (window.getSelection) {
+        // Firefox support
+        userSelection = window.getSelection();
+    } else if (document.selection) {
+        // IE Support
+        userSelection = document.selection.createRange();
+    }
+    if (!(text = userSelection.text)) {
+        text = userSelection;
+    }
+    return text;
+}
+/**
+* 选中特定范围的文本
+* 参数：
+*     textDom  [JavaScript DOM String] 当前对象
+*     startPos  [Int]  起始位置
+*     endPos  [Int]  终点位置
+*/
+function setSelectText(textDom, startPos, endPos) {
+    var startPos = parseInt(startPos),
+        endPos = parseInt(endPos),
+        textLength = textDom.value.length;
+    if(textLength){
+        if(!startPos){
+            startPos = 0;
+        }
+        if(!endPos){
+            endPos = textLength;
+        }
+        if(startPos > textLength){
+            startPos = textLength;
+        }
+        if(endPos > textLength){
+            endPos = textLength;
+        }
+        if(startPos < 0){
+            startPos = textLength + startPos;
+        }
+        if(endPos < 0){
+            endPos = textLength + endPos;
+        }
+        if(textDom.createTextRange){
+            // IE Support
+            var range = textDom.createTextRange();
+            range.moveStart("character",-textLength);
+            range.moveEnd("character",-textLength);
+            range.moveStart("character", startPos);
+            range.moveEnd("character",endPos);
+            range.select();
+        }else{
+            // Firefox support
+            textDom.setSelectionRange(startPos, endPos);
+            textDom.focus();
+        }
+    }
+}
+/**
+* 在光标后插入文本
+* 参数：
+*     textDom  [JavaScript DOM String] 当前对象
+*     value  [String]  要插入的文本
+*/
+function insertAfterText(textDom, value) {
+    var selectRange;
+    if (document.selection) {
+        // IE Support
+        textDom.focus();
+        selectRange = document.selection.createRange();
+        selectRange.text = value;
+        textDom.focus();
+    }else if (textDom.selectionStart || textDom.selectionStart == '0') {
+        // Firefox support
+        var startPos = textDom.selectionStart;
+        var endPos = textDom.selectionEnd;
+        var scrollTop = textDom.scrollTop;
+        textDom.value = textDom.value.substring(0, startPos) + value + textDom.value.substring(endPos, textDom.value.length);
+        textDom.focus();
+        textDom.selectionStart = startPos + value.length;
+        textDom.selectionEnd = startPos + value.length;
+        textDom.scrollTop = scrollTop;
+    }
+    else {
+        textDom.value += value;
+        textDom.focus();
+    }
+}
+    
+    </script>
+
+</head>
+<body>
+    <button onclick="cursort()">光标</button>
+    <div id="conten" contenteditable="true">这是一个可<img onclick="alert('图片')" width="100%" height="100px">编辑的文本</div>
+</body>
+
+
+</html>
