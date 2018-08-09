@@ -16,20 +16,21 @@ host = socket.gethostname()
 host = "127.0.0.1"
 
 # 设置端口号
-port = 6973
-
-s.connect((host, port))
+port = 6983
 
 while True:
+    s.connect((host, port))
+
     # 接收小于 1024 字节的数据
     senS = input("请输入：")
     print(senS)
     print(s)
     s.send(senS.encode('utf-8'))
 
-    
-    # msg = s.recv(1024)
-    # print (msg.decode('utf-8'))
+    msg = s.recv(1024)
+    print (msg.decode('utf-8'))
 
+
+print('已关闭')
 s.close()
 
