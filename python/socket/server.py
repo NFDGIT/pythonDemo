@@ -34,5 +34,4 @@ while True:
         print(ms.decode('utf-8'))
         # clientsocket.send(ms.encode('utf-8'))
 
-
 clientsocket.close()

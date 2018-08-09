@@ -1,6 +1,11 @@
 # -*- coding: utf-8 -*
 
 from python import blockchain
+# from python.socket import client
+# from python.socket import server
+
+
+
 import json
 import os
 from flask import send_from_directory

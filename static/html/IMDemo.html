@@ -6,9 +6,19 @@
     <title>即时通讯</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="css/main.css" />
-    <script src="js/im.js"></script>
+    <script src="../js/im.js"></script>
 </head>
 <body>
-    
+
+    <form name="socketForm" action="" onsubmit="connectSocketServer()">
+        <p>host:<input  name="socketHost" type="text"></p> 
+        <p>port: <input name="socketPort" type="text" ></p>
+        <input type="submit" value="连接">
+    </form>
+    <form action="">
+        <p>发给谁：<input type="text"></p>
+        <p>消息：<input type="text"></p> 
+        <input type="submit" value="发送">
+    </form>
 </body>
 </html>

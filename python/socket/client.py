@@ -18,7 +18,6 @@ host = "127.0.0.1"
 # 设置端口号
 port = 6973
 
-
 s.connect((host, port))
 
 while True:
@@ -28,9 +27,9 @@ while True:
     print(s)
     s.send(senS.encode('utf-8'))
 
+    
     # msg = s.recv(1024)
     # print (msg.decode('utf-8'))
-
 
 s.close()
 
