@@ -1,14 +1,24 @@
+<!DOCTYPE html>
+
+
+
+
+
+
 <html>                                                                      
-        <head>                                                                      
-        <title>Simple client</title>                                                
-                                                                                    
+    <head>     
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Simple client</title>  
+        <meta name="viewport" content="width=device-width, initial-scale=1">                                                                                   
         <script type="text/javascript">                                             
                                                                                     
         var ws;                                                                     
                                                                                     
         function init() {                                                           
             // 获取服务端ip                                                                      
-            var ip_addr = document.location.hostname;                               
+            var ip_addr = document.location.hostname;   
+            ip_addr = "10.120.35.203";                         
             window.WebSocket = window.WebSocket || window.MozWebSocket;             
             ws = new WebSocket('ws://' + ip_addr +':9001');         // 申请新的客户端                
                                                                                     

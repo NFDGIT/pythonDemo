@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*
 
 from python import blockchain
-# from python.socket import client
-# from python.socket import server
+
 
 
 
@@ -21,6 +20,8 @@ app = Flask(__name__, static_url_path='')
 indentifier = str(uuid4()).replace("-","")
 
 blockchain =  blockchain.Blockchain()
+
+
 
 
 @app.route('/getName',methods=['GET'])
@@ -111,7 +112,11 @@ def consensus():
 
     return jsonify(response), 200   
 
-
+# 运行socket 服务器
+@app.route('/socketServer/run',methods=['GET'])
+def run():
+    # socketServer.run();
+    return "运行成功",200
 
 
 
