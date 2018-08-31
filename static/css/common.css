@@ -3,16 +3,6 @@ body{
     padding-right: 0px;
     padding-top: 0px;
     padding-bottom: 0px;
-
-
-    margin-left: 0px;
-    margin-right: 0px;
-    margin-top: 0px;
-    margin-bottom: 0px;
-
-    height: 100%;
-    display: flex;
-    flex-direction: column;
  }
  
 body .navi {
@@ -29,11 +19,14 @@ body .navi .back {
 }
 body .navi .title {
    background-color: azure;
+   
+
+
 }
 
 
 body .content {
-    background-color:green;
+    background-color: azure;
     width: 100%;
-    flex: 1;
+
 }

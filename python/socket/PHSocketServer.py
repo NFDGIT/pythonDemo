@@ -7,7 +7,8 @@ class Server(object):
         server = WebsocketServer(PORT, "0.0.0.0")                                       
         server.set_fn_new_client(new_client)                                            
         server.set_fn_client_left(client_left)                                          
-        server.set_fn_message_received(message_received)                                
+        server.set_fn_message_received(message_received)      
+                          
         print("即将运行") 
         server.run_forever()
         print("运行成功") 
