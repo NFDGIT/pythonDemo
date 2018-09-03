@@ -66,7 +66,7 @@ def chain():
 
 @app.route('/')
 def index():
-    return app.send_static_file('html/index.html')  
+    return app.send_static_file('main/html/index.html')  
 
 
 if __name__ == "__main__":
