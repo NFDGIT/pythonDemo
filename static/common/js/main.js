@@ -1,9 +1,8 @@
-
-
+window.addEventListener("resize",layout);
 /*
 */
 function layout() {
-    document.body.style.height = window.screen.height + "px";
+    document.body.style.height = window.innerHeight + "px";
 }
 /*
   导航  初始化导航
@@ -13,7 +12,10 @@ function initNavi(title,isBack) {
     var navi =    document.createElement('div');
     navi.className = "navi";
 
-
+    navi.onclick = function () {
+        layout();
+  
+    }
 
     if (isBack) {
         var backView =    document.createElement('div');
@@ -46,7 +48,6 @@ function initTabbar(block)
     var tabbar =    document.createElement('div');
     tabbar.className = "tabbar";
     document.body.appendChild(tabbar);
-
 
 
     var tabbarValues = ['首页','视频','我的'];
