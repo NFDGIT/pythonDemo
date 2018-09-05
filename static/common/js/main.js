@@ -1,6 +1,7 @@
 
 
-
+/*
+*/
 function layout() {
     document.body.style.height = window.screen.height + "px";
 }
@@ -36,13 +37,18 @@ function initNavi(title,isBack) {
 /*
  initTabbar
 */
-function initTabbar() {
+
+var tabbarBlock;
+function initTabbar(block) 
+{
+    tabbarBlock = block;
+
     var tabbar =    document.createElement('div');
     tabbar.className = "tabbar";
     document.body.appendChild(tabbar);
 
 
-    
+
     var tabbarValues = ['首页','视频','我的'];
     for (let index = 0; index < tabbarValues.length; index++) {
         const element = tabbarValues[index];
@@ -50,8 +56,29 @@ function initTabbar() {
         var tabbarItem = document.createElement('div');
         tabbarItem.className = 'tabbarItem';
         tabbarItem.innerText = element;
+        tabbarItem.onclick = function () {  
+            refreshTabbar(index);   
+        };
+
+
         tabbar.appendChild(tabbarItem);
+        
     }
 
 
+}
+function refreshTabbar(index) {
+
+    tabbarBlock(index);
+
+    var tabbar =  document.body.getElementsByClassName('tabbar')[0];   
+    var target =  tabbar.getElementsByClassName('tabbarItem')[index];
+
+    var tabbarItems = tabbar.getElementsByClassName('tabbarItem');   
+    for (let index = 0; index < tabbarItems.length; index++) {
+        const element = tabbarItems[index];
+        element.style.color = 'black';
+    }
+    target.style.color = 'red';
+    
 }

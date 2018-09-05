@@ -36,7 +36,6 @@ body .navi .back {
 body .navi .title {
    color: azure;
    text-align: center;
-   
 }
 
 
@@ -58,6 +57,6 @@ body .tabbar {
 body .tabbar  .tabbarItem{
     flex: 1;
     height: 100%;
+    
     text-align: center;
-    color: green;
 }

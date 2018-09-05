@@ -7,92 +7,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
   
     <link rel="stylesheet" type="text/css" media="screen" href="common/css/main.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="main/css/main.css" />
     <script src="/common/js/main.js"></script>
+    <script src="/main/js/main.js"></script>
    
 </head>
 <body>
         <script>
                 initNavi("首页",false);
         </script>
-        <div class="content">
-                <ul>
-           
-                                <li>    <a href="/common/html/IMDemo.html">即时通讯</a>
-                                </li>
-                                <li>    <a href="/common/html/iOStech.html">iOS只是总结</a>
-                                </li>
-                                <li>      <a href="common/html/tableBallGame.html">桌球</a>
-                                </li>
-                                <li>       <a href="common/html/database.html">数据库</a>
-                                </li>
-                                <li>       <a href="common/html/rishText.html">富文本</a>
-                                </li>
-                                <li>       <a href="common/html/blockChainDemo.html">挖矿</a>
-                                </li>             <li>    <a href="/common/html/IMDemo.html">即时通讯</a>
-                                </li>
-                                <li>    <a href="/common/html/iOStech.html">iOS只是总结</a>
-                                </li>
-                                <li>      <a href="common/html/tableBallGame.html">桌球</a>
-                                </li>
-                                <li>       <a href="common/html/database.html">数据库</a>
-                                </li>
-                                <li>       <a href="common/html/rishText.html">富文本</a>
-                                </li>
-                                <li>       <a href="common/html/blockChainDemo.html">挖矿</a>
-                                </li>             <li>    <a href="/common/html/IMDemo.html">即时通讯</a>
-                                </li>
-                                <li>    <a href="/common/html/iOStech.html">iOS只是总结</a>
-                                </li>
-                                <li>      <a href="common/html/tableBallGame.html">桌球</a>
-                                </li>
-                                <li>       <a href="common/html/database.html">数据库</a>
-                                </li>
-                                <li>       <a href="common/html/rishText.html">富文本</a>
-                                </li>
-                                <li>       <a href="common/html/blockChainDemo.html">挖矿</a>
-                                </li>             <li>    <a href="/common/html/IMDemo.html">即时通讯</a>
-                                </li>
-                                <li>    <a href="/common/html/iOStech.html">iOS只是总结</a>
-                                </li>
-                                <li>      <a href="common/html/tableBallGame.html">桌球</a>
-                                </li>
-                                <li>       <a href="common/html/database.html">数据库</a>
-                                </li>
-                                <li>       <a href="common/html/rishText.html">富文本</a>
-                                </li>
-                                <li>       <a href="common/html/blockChainDemo.html">挖矿</a>
-                                </li>             <li>    <a href="/common/html/IMDemo.html">即时通讯</a>
-                                </li>
-                                <li>    <a href="/common/html/iOStech.html">iOS只是总结</a>
-                                </li>
-                                <li>      <a href="common/html/tableBallGame.html">桌球</a>
-                                </li>
-                                <li>       <a href="common/html/database.html">数据库</a>
-                                </li>
-                                <li>       <a href="common/html/rishText.html">富文本</a>
-                                </li>
-                                <li>       <a href="common/html/blockChainDemo.html">挖矿</a>
-                                </li>             <li>    <a href="/common/html/IMDemo.html">即时通讯</a>
-                                </li>
-                                <li>    <a href="/common/html/iOStech.html">iOS只是总结</a>
-                                </li>
-                                <li>      <a href="common/html/tableBallGame.html">桌球</a>
-                                </li>
-                                <li>       <a href="common/html/database.html">数据库</a>
-                                </li>
-                                <li>       <a href="common/html/rishText.html">富文本</a>
-                                </li>
-                                <li>       <a href="common/html/blockChainDemo.html">挖矿</a>
-                                </li>                                                                                                               
-                </ul>
-                                                    
-        </div>
-                                       
+        <div class="content">                                 
+        </div>                                       
+
         <script>
-                initTabbar();
+                initTabbar(function (index) {
+                     refreshUI(index);
+                });
+                refreshTabbar(2);
+
         </script>  
         <script>
                 layout();
-        </script>                
+        </script>  
+        
+        <script>
+    
+        </script>
+
 </body>
 </html>
