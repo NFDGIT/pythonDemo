@@ -1,9 +1,13 @@
 window.addEventListener("resize",layout);
+
 /*
 */
 function layout() {
     document.body.style.height = window.innerHeight + "px";
 }
+
+
+
 /*
   导航  初始化导航
 */

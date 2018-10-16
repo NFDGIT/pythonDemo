@@ -33,6 +33,7 @@ var datas = [{'title':'即时通讯','url':'/common/html/IMDemo.html'},
              {'title':'桌球','url':'common/html/tableBallGame.html'},
              {'title':'数据库','url':'common/html/database.html'},
              {'title':'富文本','url':'common/html/rishText.html'},
+             {'title':'pdf','url':'resource/【人事通知】国信-人事部-暂停招聘和入职通知20180731.pdf'},
              {'title':'挖矿','url':'common/html/blockChainDemo.html'}];
 
 function refreshMainUI() {
