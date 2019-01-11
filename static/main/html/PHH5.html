@@ -1,0 +1,218 @@
+<!doctype html>
+<html>
+<head>
+    <title>首页</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <script type="text/javascript">
+        function setupWebViewJavascriptBridge(callback) {
+            if (window.WebViewJavascriptBridge) { return callback(WebViewJavascriptBridge); }
+            if (window.WVJBCallbacks) { return window.WVJBCallbacks.push(callback); }
+            window.WVJBCallbacks = [callback];
+            var WVJBIframe = document.createElement('iframe');
+            WVJBIframe.style.display = 'none';
+            WVJBIframe.src = 'https://__bridge_loaded__';
+            document.documentElement.appendChild(WVJBIframe);
+            setTimeout(function() { document.documentElement.removeChild(WVJBIframe) }, 0)
+        }  
+        setupWebViewJavascriptBridge(function(bridge){
+            // 这里注册Native 要调用的js 功能。
+            bridge.registerHandler('jsMethod', function(data, responseCallback) {
+                document.getElementById("alertid").innerText = data;
+                responseCallback('js执行过了');
+            })      
+            bridge.registerHandler('jsSkbConnectState', function(data, responseCallback) {
+
+                bridge.callHandler('showToast',data,function responseCallback(responseData) {
+                });
+                responseCallback(data);
+                // document.getElementById("alertid").innerText = data;
+
+            })  
+            
+
+
+        })
+ 
+                                 
+    </script>
+</head>
+<body>
+    <div style="text-align:center">
+        <input type="text" placeholder="请输入vin" value="JTHBT1GGXF2000835" id="vininputid">
+    </div>
+    <div style="text-align:center">
+        <input type="text" placeholder="请输入开始时间" value="201901010800" id="starttimeinputid">
+    </div>
+    <div style="text-align:center">
+        <input type="text" placeholder="请输入结束时间" value="201901011800" id="endtimeinputid">
+    </div>
+    <div style="text-align:center">
+        <button  style="border:0px;background-color:transparent;font-size: 20px;" id="tokenId">获取token
+        </button>
+    </div>
+    <div style="text-align:center">
+        <button  style="border:0px;background-color:transparent;font-size: 20px;" id="onekeyId">onekey获取（sever端）
+        </button>
+    </div>
+    <div style="text-align:center">
+        <button  style="border:0px;background-color:transparent;font-size: 20px;" id="onekeyLoginId">onekey登录
+        </button>
+    </div>
+    <div style="text-align:center">
+        <button  style="border:0px;background-color:transparent;font-size: 20px;" id="skbConnectId">skb连接
+        </button>
+    </div>
+    <div style="text-align:center">
+        <button  style="border:0px;background-color:transparent;font-size: 20px;" id="blogId">get screen size
+        </button>
+    </div>
+    <div style="text-align:center">
+        <button  style="border:0px;background-color:transparent;font-size: 20px;" id="alertid">alert 
+        </button>
+    </div>
+    <div style="text-align:center">
+        <button  style="border:0px;background-color:transparent;font-size: 20px;" id="toastid">toast
+        </button>
+    </div>
+    <div style="text-align:center">
+        <button  style="border:0px;background-color:transparent;font-size: 20px;" id="locationid">获取经纬度
+        </button>
+    </div>
+    <div  style="text-align:center">
+        <a href="https://www.baidu.com/">百度</a>
+    </div>
+    <div  style="text-align:center">
+        <a href="/">个人首页</a>
+    </div>
+
+    <script>
+   
+
+        setupWebViewJavascriptBridge(function(bridge){
+                                     
+            var btn =document.getElementById("blogId");
+            btn.onclick = function (e) {
+                bridge.callHandler('getScreenSize', {'key':'value'}, function responseCallback(responseData) {
+                    // btn.innerText = responseData; 
+                    bridge.callHandler('showToast',responseData,function responseCallBack(response) {
+                        bridge.callHandler('showToast',responseData,function responseCallBack(para) {
+                    })  
+                    })
+
+                })
+            }
+            document.getElementById("tokenId").onclick = function (e) {
+                bridge.callHandler('getToken','',function responseCallBack(responseData) {
+                    var json = JSON.parse(responseData)
+                    let token = json['token']
+                    bridge.callHandler('saveValueToApp',{'key':'token','value':token},function responseCallBack(params) {                          
+                    })  
+                    bridge.callHandler('showToast',responseData,function responseCallBack(para) {
+                    })  
+                    
+                })
+            }
+            document.getElementById("onekeyId").onclick = function (e) {
+               
+                bridge.callHandler('getValueFromApp',"token",function responseCallBack(responseData) {
+
+                var vin = document.getElementById("vininputid").value
+                var token =   responseData
+                var startTime = document.getElementById("starttimeinputid").value
+                var endTime = document.getElementById("endtimeinputid").value
+
+                if (vin.length == 0)
+                {
+                    bridge.callHandler('showToast',"vin 不能为空",function responseCallBack(response) {
+                    })
+                    return
+                }
+                if (token.length == 0)
+                {
+                    bridge.callHandler('showToast',"token 不能为空",function responseCallBack(response) {
+                    })
+                    return
+                }
+                if (startTime.length == 0)
+                {
+                    bridge.callHandler('showToast',"开始时间 不能为空",function responseCallBack(response) {
+                    })
+                    return
+                }
+                if (endTime.length == 0)
+                {
+                    bridge.callHandler('showToast',"结束时间 不能为空",function responseCallBack(response) {
+                    })
+                    return
+                }
+
+
+
+                var param = {'vin':vin,'token':token,'startTime':startTime,'endTime':endTime}
+
+     
+                bridge.callHandler('getOneKey',param,function responseCallBack(responseData) {
+                    bridge.callHandler('showToast',responseData,function responseCallBack(response) {
+                    })
+                    bridge.callHandler('saveValueToApp',{'key':'oneKey','value':responseData},function responseCallBack(params) {
+                    })
+
+                })
+
+
+
+                })    
+
+
+            }
+            document.getElementById("onekeyLoginId").onclick = function  (e) {
+
+                bridge.callHandler('getValueFromApp',"token",function responseCallBack(token) {// 获取 token
+                    bridge.callHandler('getValueFromApp',"oneKey",function responseCallBack(oneKey) { // 获取 onekey
+                        bridge.callHandler('saveKey',{'token':token,'oneKey':oneKey},function responseCallBack(responseData) { 
+                            bridge.callHandler('showToast',responseData,function responseCallback(responseData) {
+                            })
+                        })
+                    })  
+                })  
+            }
+            document.getElementById("skbConnectId").onclick = function  (e) {
+                // skbConnect
+                bridge.callHandler('getValueFromApp',"token",function responseCallBack(token) {// 获取 token
+                    // skbConnect
+                    bridge.callHandler('skbConnect',{'token':token},function responseCallBack(responseData) {// 获取 token
+                        bridge.callHandler('showToast',responseData,function responseCallback(response) {
+                        })
+                    })
+
+                })
+   
+            }
+            
+            document.getElementById("toastid").onclick = function (e)
+            {
+                bridge.callHandler('showToast',"toast",function responseCallback(responseData) {
+                })
+            }
+            document.getElementById("photoid").onclick = function (e)
+            {
+                bridge.callHandler('callPhoto',"",function responseCallback(responseData) {
+                })
+            }
+            document.getElementById("locationid").onclick = function (e)
+            {
+                bridge.callHandler('getLoaction',"",function responseCallback(responseData) {
+                    bridge.callHandler('showToast',responseData,function responseCallBack(response) {
+                    })
+                })
+            }                    
+                
+                                     
+        }); 
+        document.getElementById("alertid").onclick = function (e) {
+            alert("alert");
+        }
+     </script>
+</body>
+</html>
