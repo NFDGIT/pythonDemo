@@ -5,6 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <script type="text/javascript">
+        function refreshUI() {
+            setupWebViewJavascriptBridge(function(bridge) {
+                bridge.callHandler('getValueFromApp',"token",function responseCallBack(token) {
+                    document.getElementById("showBoardid").innerText = "\ntoken:" + token
+                })
+            })
+       
+        }
         function setupWebViewJavascriptBridge(callback) {
             if (window.WebViewJavascriptBridge) { return callback(WebViewJavascriptBridge); }
             if (window.WVJBCallbacks) { return window.WVJBCallbacks.push(callback); }
@@ -38,14 +46,16 @@
     </script>
 </head>
 <body>
-    <div style="text-align:center">
-        <input type="text" placeholder="请输入vin" value="JTHBT1GGXF2000835" id="vininputid">
+    <div style="width: 100%;height: 150px;background-color: green;text-align: center" id="showBoardid">
     </div>
     <div style="text-align:center">
-        <input type="text" placeholder="请输入开始时间" value="201901010800" id="starttimeinputid">
+        <input type="text" style="font-size: 15px;border-color: lightgray;border-width: 1px;-webkit-appearance: none;" placeholder="请输入vin" value="JTHBT1GGXF2000835" id="vininputid">
     </div>
     <div style="text-align:center">
-        <input type="text" placeholder="请输入结束时间" value="201901011800" id="endtimeinputid">
+        <input type="text" style="font-size: 15px;border-color: lightgray;border-width: 1px;-webkit-appearance: none;" placeholder="请输入开始时间" value="201901010800" id="starttimeinputid">
+    </div>
+    <div style="text-align:center">
+        <input type="text" style="font-size: 15px;border-color: lightgray;border-width: 1px;-webkit-appearance: none;" placeholder="请输入结束时间" value="201901011800" id="endtimeinputid">
     </div>
     <div style="text-align:center">
         <button  style="border:0px;background-color:transparent;font-size: 20px;" id="tokenId">获取token
@@ -56,13 +66,47 @@
         </button>
     </div>
     <div style="text-align:center">
+        <button  style="border:0px;background-color:transparent;font-size: 20px;" id="changeOnekeyId">onekey变更（sever端）
+        </button>
+    </div>
+    <div style="text-align:center">
+        <button  style="border:0px;background-color:transparent;font-size: 20px;" id="cancelonekeyId">onekey取消（sever端）
+        </button>
+    </div>
+    <div style="text-align:center">
+        <button  style="border:0px;background-color:transparent;font-size: 20px;" id="uploadLogId">上传日志（sever端）
+        </button>
+    </div>
+    <div style="text-align:center">
+        <button  style="border:0px;background-color:transparent;font-size: 20px;" id="syncTimeId">时间同步（sever端）
+        </button>
+    </div>
+    
+    <div style="text-align:center">
         <button  style="border:0px;background-color:transparent;font-size: 20px;" id="onekeyLoginId">onekey登录
         </button>
     </div>
     <div style="text-align:center">
-        <button  style="border:0px;background-color:transparent;font-size: 20px;" id="skbConnectId">skb连接
+        <button  style="border:0px;background-color:transparent;font-size: 20px;" id="resignonekeyId">onekey回收
         </button>
     </div>
+    <div style="text-align:center">
+        <button  style="border:0px;background-color:transparent;font-size: 20px;" id="skbConnectId">skb自动连接
+        </button>
+    </div>
+    <div style="text-align:center">
+        <button  style="border:0px;background-color:transparent;font-size: 20px;" id="skbDisconnectId">skb 断开连接
+        </button>
+    </div>
+    <div style="text-align:center">
+        <button  style="border:0px;background-color:transparent;font-size: 20px;" id="qrcodeId">扫描二维码
+        </button>
+    </div>
+    <div style="text-align:center">
+        <button  style="border:0px;background-color:transparent;font-size: 20px;" id="carDetailId">车辆详情
+        </button>
+    </div>
+
     <div style="text-align:center">
         <button  style="border:0px;background-color:transparent;font-size: 20px;" id="blogId">get screen size
         </button>
@@ -87,7 +131,7 @@
     </div>
 
     <script>
-   
+        refreshUI();
 
         setupWebViewJavascriptBridge(function(bridge){
                                      
@@ -102,17 +146,8 @@
 
                 })
             }
-            document.getElementById("tokenId").onclick = function (e) {
-                bridge.callHandler('getToken','',function responseCallBack(responseData) {
-                    var json = JSON.parse(responseData)
-                    let token = json['token']
-                    bridge.callHandler('saveValueToApp',{'key':'token','value':token},function responseCallBack(params) {                          
-                    })  
-                    bridge.callHandler('showToast',responseData,function responseCallBack(para) {
-                    })  
-                    
-                })
-            }
+
+            // 获取 onekey
             document.getElementById("onekeyId").onclick = function (e) {
                
                 bridge.callHandler('getValueFromApp',"token",function responseCallBack(responseData) {
@@ -160,12 +195,190 @@
 
                 })
 
-
-
                 })    
-
-
             }
+            // 变更 key
+            document.getElementById("onekeyId").onclick = function (e) {
+                bridge.callHandler('getValueFromApp',"token",function responseCallBack(responseData) {
+
+                    var vin = document.getElementById("vininputid").value
+                    var keyPublishId = ''
+                    var token =   responseData
+                    var startTime = document.getElementById("starttimeinputid").value
+                    var endTime = document.getElementById("endtimeinputid").value
+    
+                    if (vin.length == 0)
+                    {
+                        bridge.callHandler('showToast',"vin 不能为空",function responseCallBack(response) {
+                        })
+                        return
+                    }
+                    if (keyPublishId.length == 0)
+                    {
+                        bridge.callHandler('showToast',"keyPublishId 不能为空",function responseCallBack(response) {
+                        })
+                        return
+                    }
+                    if (token.length == 0)
+                    {
+                        bridge.callHandler('showToast',"token 不能为空",function responseCallBack(response) {
+                        })
+                        return
+                    }
+                    if (endTime.length == 0)
+                    {
+                        bridge.callHandler('showToast',"结束时间 不能为空",function responseCallBack(response) {
+                        })
+                        return
+                    }
+
+                    if (startTime.length == 0)
+                    {
+                        bridge.callHandler('showToast',"开始时间 不能为空",function responseCallBack(response) {
+                        })
+                        return
+                    }
+
+
+
+
+                    var param = {'vin':vin,'keyPublishId':keyPublishId,'token':token,'startTime':startTime,'endTime':endTime}
+
+    
+                    bridge.callHandler('getOneKey',param,function responseCallBack(responseData) {
+                        bridge.callHandler('showToast',responseData,function responseCallBack(response) {
+                        })
+                        bridge.callHandler('saveValueToApp',{'key':'oneKey','value':responseData},function responseCallBack(params) {
+                        })    
+
+                    })
+               }) 
+            }   
+            document.getElementById("changeOnekeyId").onclick = function (e) {
+               
+               bridge.callHandler('getValueFromApp',"token",function responseCallBack(responseData) {
+
+               var vin = document.getElementById("vininputid").value
+               var keyPublishId = ''
+               var token =   responseData
+               var startTime = document.getElementById("starttimeinputid").value
+               var endTime = document.getElementById("endtimeinputid").value
+
+               if (vin.length == 0)
+               {
+                   bridge.callHandler('showToast',"vin 不能为空",function responseCallBack(response) {
+                   })
+                   return
+               }
+               if (keyPublishId.length == 0)
+               {
+                   bridge.callHandler('showToast',"keyPublishId 不能为空",function responseCallBack(response) {
+                   })
+                   return
+               }
+               if (token.length == 0)
+               {
+                   bridge.callHandler('showToast',"token 不能为空",function responseCallBack(response) {
+                   })
+                   return
+               }
+               if (endTime.length == 0)
+               {
+                   bridge.callHandler('showToast',"结束时间 不能为空",function responseCallBack(response) {
+                   })
+                   return
+               }
+
+               if (startTime.length == 0)
+               {
+                   bridge.callHandler('showToast',"开始时间 不能为空",function responseCallBack(response) {
+                   })
+                   return
+               }
+
+
+
+
+               var param = {'vin':vin,'keyPublishId':keyPublishId,'token':token,'startTime':startTime,'endTime':endTime}
+
+    
+               bridge.callHandler('getOneKey',param,function responseCallBack(responseData) {
+                   bridge.callHandler('showToast',responseData,function responseCallBack(response) {
+                   })
+                   bridge.callHandler('saveValueToApp',{'key':'oneKey','value':responseData},function responseCallBack(params) {
+                   })
+
+               })
+
+               })    
+
+
+           }
+            // 取消 onekey
+            document.getElementById("cancelonekeyId").onclick = function  (e) {
+                var keyPublishId = ''
+                if (keyPublishId.length == 0)
+                {
+                   bridge.callHandler('showToast',"keyPublishId 不能为空",function responseCallBack(response) {
+                   })
+                   return
+                }
+                var param = {'keyPublishId':keyPublishId}
+                bridge.callHandler('cancelOneKey',param,function responseCallBack(responseData) {// 
+                    bridge.callHandler('showToast',responseData,function responseCallback(responseData) {
+                    })
+                })  
+            }
+            // 上传日志
+            document.getElementById("uploadLogId").onclick = function  (e) {
+                var vin = document.getElementById("vininputid").value
+                var logData = "asZpeZg9hVFGEZ9ihYCmug=="
+                if (vin.length == 0)
+                {
+                    bridge.callHandler('showToast',"vin 不能为空",function responseCallBack(response) {
+                    })
+                    return
+                }
+                bridge.callHandler('uploadLog',{'vin':vin,'logData':logData},function responseCallBack(responseData) {// 获取 token
+                    var json = JSON.parse(responseData)
+                    
+                    bridge.callHandler('showToast',responseData,function responseCallback(response) {
+                    })
+                })
+   
+            }   
+            // 同步时间
+            document.getElementById("syncTimeId").onclick = function  (e) {
+                var vin = document.getElementById("vininputid").value
+                var logData = "asZpeZg9hVFGEZ9ihYCmug=="
+                if (vin.length == 0)
+                {
+                    bridge.callHandler('showToast',"vin 不能为空",function responseCallBack(response) {
+                    })
+                    return
+                }
+                bridge.callHandler('syncTimeToServer',{'vin':vin,'logData':logData},function responseCallBack(responseData) {// 获取 token
+                    bridge.callHandler('showToast',responseData,function responseCallback(response) {
+                    })
+
+                })
+   
+            }
+            // 获取 token
+            document.getElementById("tokenId").onclick = function (e) {
+                bridge.callHandler('getToken','',function responseCallBack(responseData) {
+                    var json = JSON.parse(responseData)
+                    let token = json['token']
+                    bridge.callHandler('saveValueToApp',{'key':'token','value':token},function responseCallBack(params) {                          
+                    })  
+                    bridge.callHandler('showToast',responseData,function responseCallBack(para) {
+                    })  
+                    refreshUI()
+                    
+                })
+         
+            }
+            // key 登录
             document.getElementById("onekeyLoginId").onclick = function  (e) {
 
                 bridge.callHandler('getValueFromApp',"token",function responseCallBack(token) {// 获取 token
@@ -177,6 +390,19 @@
                     })  
                 })  
             }
+            // key 回收
+            document.getElementById("resignonekeyId").onclick = function  (e) {
+
+                bridge.callHandler('getValueFromApp',"token",function responseCallBack(token) {// 获取 token
+
+                    bridge.callHandler('resignKey',{'token':token},function responseCallBack(responseData) { // key 回收
+                        bridge.callHandler('showToast',responseData,function responseCallback(response) {
+                        })
+                    })  
+                })  
+            }
+            
+            //  skb 连接
             document.getElementById("skbConnectId").onclick = function  (e) {
                 // skbConnect
                 bridge.callHandler('getValueFromApp',"token",function responseCallBack(token) {// 获取 token
@@ -189,7 +415,31 @@
                 })
    
             }
+            //  skb 断开连接
+            document.getElementById("skbDisconnectId").onclick = function  (e) {
+                // skbConnect
+                bridge.callHandler('getValueFromApp',"token",function responseCallBack(token) {// 获取 token
+                    // skbConnect
+                    bridge.callHandler('skbDisconnect',{'token':token},function responseCallBack(responseData) {// 获取 token
+                        bridge.callHandler('showToast',responseData,function responseCallback(response) {
+                        })
+                    })
+                })
+            }
             
+            document.getElementById("qrcodeId").onclick = function  (e) {
+        
+                bridge.callHandler('callQRCode',"",function responseCallBack(responseData) {//
+                    bridge.callHandler('showToast',responseData,function responseCallback(response) {
+                    })
+                })
+            }  
+            document.getElementById("carDetailId").onclick = function  (e) {
+                bridge.callHandler('goCarDetail',"",function responseCallBack(responseData) {//
+                    bridge.callHandler('showToast',responseData,function responseCallback(response) {
+                    })
+                })
+            }        
             document.getElementById("toastid").onclick = function (e)
             {
                 bridge.callHandler('showToast',"toast",function responseCallback(responseData) {
@@ -210,9 +460,9 @@
                 
                                      
         }); 
-        document.getElementById("alertid").onclick = function (e) {
-            alert("alert");
-        }
-     </script>
+        // document.getElementById("alertid").onclick = function (e) {
+        //     alert("alert");
+        // }
+    </script>
 </body>
 </html>
