@@ -5,6 +5,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <script type="text/javascript">
+
+        //  与 skc 的连接
+        let js_skc_getToken = "js_skc_getToken"                // 获取token
+
+        let js_skc_getOneKey = "js_skc_getOneKey"              // 获取 onetimekey
+        let js_skc_changeOneKey = "js_skc_changeOneKey"        // 变更key
+        let js_skc_cancelOneKey = "js_skc_cancelOneKey"        // 取消 onetimekey
+        let js_skc_uploadLog = "js_skc_uploadLog"                          // 上传日志
+        let js_skc_syncTimeToServer = "js_skc_syncTimeToServer"            // 时间同步
+
+        let js_skc_saveKey = "js_skc_saveKey"            // 登录key
+        let js_skc_resignKey = "js_skc_resignKey"        // 回收key
+        let js_skc_skbConnect = "js_skc_skbConnect"      // 连接skb
+        let js_skc_skbDisconnect = "js_skc_skbDisconnect"      // 连接skb
+
+
+        //  与 服务器的连接
+        // 用户
+        let js_user_login = "js_user_login"              // 用户登录
+        let js_user_register = "js_user_register"        // 用户注册
+        let js_user_getSmsCode = "js_user_getSmsCode"    // 获取验证码
+        let js_user_getUserInfo = "js_user_getUserInfo"  // 获取用户信息
+
+        // 车辆管理
+        let js_carManager_getCarListByUserId = "js_carManager_getCarListByUserId"    //  获取车辆列表
+        let js_carManager_getCarInfo = "js_carManager_getCarInfo"           //  获取车辆信息
+
+
+        // 预约信息
+        let js_reserver_addKeyReserveInfoInfo = "js_reserver_addKeyReserveInfoInfo"    //  添加预约信息
+        let js_reserver_updateKeyReserveInfoByVIN = "js_reserver_updateKeyReserveInfoByVIN"           //  更新预约信息
+        let js_reserver_getKeyReserveInfoByVIN = "js_reserver_getKeyReserveInfoByVIN"           //  获取预约信息
+
+
+        // 车辆信息
+        let js_carInfo_addCarInfo = "js_carInfo_addCarInfo"    //  添加车辆信息
+        let js_carInfo_getCarInfoByVIN = "js_carInfo_getCarInfoByVIN"    //  获取车辆信息
+        let js_carInfo_updateCarInfoByVIN = "js_carInfo_updateCarInfoByVIN"    //  更新车辆信息
+
+
+
         function refreshUI() {
             setupWebViewJavascriptBridge(function(bridge) {
                 bridge.callHandler('getValueFromApp',"token",function responseCallBack(token) {
@@ -129,7 +170,14 @@
     <div  style="text-align:center">
         <a href="/">个人首页</a>
     </div>
-
+    <div style="text-align:center">
+        <button  style="border:0px;background-color:transparent;font-size: 20px;" id="usergetsmscodeid">获取验证码
+        </button>
+    </div>
+    <div style="text-align:center">
+        <button  style="border:0px;background-color:transparent;font-size: 20px;" id="userloginid">登录
+        </button>
+    </div>
     <script>
         refreshUI();
 
@@ -187,7 +235,7 @@
                 var param = {'vin':vin,'token':token,'startTime':startTime,'endTime':endTime}
 
      
-                bridge.callHandler('getOneKey',param,function responseCallBack(responseData) {
+                bridge.callHandler(js_skc_getOneKey,param,function responseCallBack(responseData) {
                     bridge.callHandler('showToast',responseData,function responseCallBack(response) {
                     })
                     bridge.callHandler('saveValueToApp',{'key':'oneKey','value':responseData},function responseCallBack(params) {
@@ -198,62 +246,6 @@
                 })    
             }
             // 变更 key
-            document.getElementById("onekeyId").onclick = function (e) {
-                bridge.callHandler('getValueFromApp',"token",function responseCallBack(responseData) {
-
-                    var vin = document.getElementById("vininputid").value
-                    var keyPublishId = ''
-                    var token =   responseData
-                    var startTime = document.getElementById("starttimeinputid").value
-                    var endTime = document.getElementById("endtimeinputid").value
-    
-                    if (vin.length == 0)
-                    {
-                        bridge.callHandler('showToast',"vin 不能为空",function responseCallBack(response) {
-                        })
-                        return
-                    }
-                    if (keyPublishId.length == 0)
-                    {
-                        bridge.callHandler('showToast',"keyPublishId 不能为空",function responseCallBack(response) {
-                        })
-                        return
-                    }
-                    if (token.length == 0)
-                    {
-                        bridge.callHandler('showToast',"token 不能为空",function responseCallBack(response) {
-                        })
-                        return
-                    }
-                    if (endTime.length == 0)
-                    {
-                        bridge.callHandler('showToast',"结束时间 不能为空",function responseCallBack(response) {
-                        })
-                        return
-                    }
-
-                    if (startTime.length == 0)
-                    {
-                        bridge.callHandler('showToast',"开始时间 不能为空",function responseCallBack(response) {
-                        })
-                        return
-                    }
-
-
-
-
-                    var param = {'vin':vin,'keyPublishId':keyPublishId,'token':token,'startTime':startTime,'endTime':endTime}
-
-    
-                    bridge.callHandler('getOneKey',param,function responseCallBack(responseData) {
-                        bridge.callHandler('showToast',responseData,function responseCallBack(response) {
-                        })
-                        bridge.callHandler('saveValueToApp',{'key':'oneKey','value':responseData},function responseCallBack(params) {
-                        })    
-
-                    })
-               }) 
-            }   
             document.getElementById("changeOnekeyId").onclick = function (e) {
                
                bridge.callHandler('getValueFromApp',"token",function responseCallBack(responseData) {
@@ -295,14 +287,10 @@
                    })
                    return
                }
-
-
-
-
                var param = {'vin':vin,'keyPublishId':keyPublishId,'token':token,'startTime':startTime,'endTime':endTime}
 
     
-               bridge.callHandler('getOneKey',param,function responseCallBack(responseData) {
+               bridge.callHandler(js_skc_changeOneKey,param,function responseCallBack(responseData) {
                    bridge.callHandler('showToast',responseData,function responseCallBack(response) {
                    })
                    bridge.callHandler('saveValueToApp',{'key':'oneKey','value':responseData},function responseCallBack(params) {
@@ -324,7 +312,7 @@
                    return
                 }
                 var param = {'keyPublishId':keyPublishId}
-                bridge.callHandler('cancelOneKey',param,function responseCallBack(responseData) {// 
+                bridge.callHandler(js_skc_cancelOneKey,param,function responseCallBack(responseData) {// 
                     bridge.callHandler('showToast',responseData,function responseCallback(responseData) {
                     })
                 })  
@@ -339,7 +327,7 @@
                     })
                     return
                 }
-                bridge.callHandler('uploadLog',{'vin':vin,'logData':logData},function responseCallBack(responseData) {// 获取 token
+                bridge.callHandler(js_skc_uploadLog,{'vin':vin,'logData':logData},function responseCallBack(responseData) {// 获取 token
                     var json = JSON.parse(responseData)
                     
                     bridge.callHandler('showToast',responseData,function responseCallback(response) {
@@ -357,7 +345,7 @@
                     })
                     return
                 }
-                bridge.callHandler('syncTimeToServer',{'vin':vin,'logData':logData},function responseCallBack(responseData) {// 获取 token
+                bridge.callHandler(js_skc_syncTimeToServer,{'vin':vin,'logData':logData},function responseCallBack(responseData) {// 获取 token
                     bridge.callHandler('showToast',responseData,function responseCallback(response) {
                     })
 
@@ -366,7 +354,7 @@
             }
             // 获取 token
             document.getElementById("tokenId").onclick = function (e) {
-                bridge.callHandler('getToken','',function responseCallBack(responseData) {
+                bridge.callHandler(js_skc_getToken,'',function responseCallBack(responseData) {
                     var json = JSON.parse(responseData)
                     let token = json['token']
                     bridge.callHandler('saveValueToApp',{'key':'token','value':token},function responseCallBack(params) {                          
@@ -439,10 +427,25 @@
                     bridge.callHandler('showToast',responseData,function responseCallback(response) {
                     })
                 })
-            }        
-            document.getElementById("toastid").onclick = function (e)
+            }      
+            document.getElementById("usergetsmscodeid").onclick = function (e)
             {
-                bridge.callHandler('showToast',"toast",function responseCallback(responseData) {
+                // skbConnect
+                bridge.callHandler('getValueFromApp',"token",function responseCallBack(token) {// 获取 token
+                    bridge.callHandler('js_user_getSmsCode',{'phoneNumber':'13383824275'},function responseCallback(responseData) {
+                        bridge.callHandler('showToast',responseData,function responseCallBack(response) {
+                        })
+                    })                
+                })
+            }              
+            document.getElementById("userloginid").onclick = function (e)
+            {
+                // skbConnect
+                bridge.callHandler('getValueFromApp',"token",function responseCallBack(token) {// 获取 token
+                    bridge.callHandler('js_user_login',{'phoneNumber':'13383824275'},function responseCallback(responseData) {
+                        bridge.callHandler('showToast',responseData,function responseCallBack(response) {
+                        })
+                    })                
                 })
             }
             document.getElementById("photoid").onclick = function (e)
@@ -457,8 +460,8 @@
                     })
                 })
             }                    
-                
-                                     
+               
+                                    
         }); 
         // document.getElementById("alertid").onclick = function (e) {
         //     alert("alert");
