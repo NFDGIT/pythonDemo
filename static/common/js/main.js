@@ -45,7 +45,7 @@ function initNavi(title,isBack) {
 */
 
 var tabbarBlock;
-function initTabbar(block) 
+function initTabbar(tabbarValues,block) 
 {
     tabbarBlock = block;
 
@@ -53,8 +53,6 @@ function initTabbar(block)
     tabbar.className = "tabbar";
     document.body.appendChild(tabbar);
 
-
-    var tabbarValues = ['首页','视频','我的'];
     for (let index = 0; index < tabbarValues.length; index++) {
         const element = tabbarValues[index];
         

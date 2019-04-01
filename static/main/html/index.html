@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" media="screen" href="main/css/main.css" />
     <script src="/common/js/main.js"></script>
     <script src="/main/js/main.js"></script>
+    
    
 </head>
 <body>
@@ -20,8 +21,12 @@
         </div>                                       
 
         <script>
-                initTabbar(function (index) {
-                     refreshUI(index);
+               let tabbarValues = ['首页','视频','我的']
+               let contentUrls = ['https://swift.utools.club/main/html/funcs.html','https://www.qq.com','../../vue/html/index.html']
+
+                initTabbar(tabbarValues,function (index) {
+                     refreshUI(tabbarValues[index],contentUrls[index]);
+
                 });
                 refreshTabbar(0);
 

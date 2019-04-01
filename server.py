@@ -112,9 +112,16 @@ def consensus():
 
     return jsonify(response), 200   
 
+
 # 运行socket 服务器
 @app.route('/socketServer/run',methods=['GET'])
 def run():
     # socketServer.run();
     return "运行成功",200
+
+
+# # 上传文件 
+# @app.route('/upload',methods=["POST"]) 
+# def upload():
+
 
