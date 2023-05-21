@@ -1,36 +1,38 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>功能</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
- 
+
 </head>
+
 <body>
     <script>
         var ul = document.createElement('ul');
-        let contentValues =   [{'title':'即时通讯','url':'/common/html/IMDemo.html'},
-             {'title':'iOS只是总结','url':'/common/html/iOStech.html'},
-             {'title':'桌球','url':'common/html/tableBallGame.html'},
-             {'title':'数据库','url':'common/html/database.html'},
-             {'title':'富文本','url':'common/html/rishText.html'},
-             {'title':'pdf','url':'resource/【人事通知】国信-人事部-暂停招聘和入职通知20180731.pdf'},
-             {'title':'挖矿','url':'common/html/blockChainDemo.html'},
-             {'title':'vue','url':'vue/html/index.html'}];
+        let contentValues = [{ 'title': '即时通讯', 'url': '/common/html/IMDemo.html' },
+        { 'title': 'iOS只是总结', 'url': '/common/html/iOStech.html' },
+        { 'title': '桌球', 'url': '/common/html/tableBallGame.html' },
+        { 'title': '数据库', 'url': '/common/html/database.html' },
+        { 'title': '富文本', 'url': '/common/html/rishText.html' },
+        { 'title': 'pdf', 'url': '/resource/【人事通知】国信-人事部-暂停招聘和入职通知20180731.pdf' },
+        { 'title': '挖矿', 'url': '/common/html/blockChainDemo.html' },
+        { 'title': 'vue', 'url': '/vue/html/index.html' }];
 
 
-  
+
         for (let index = 0; index < contentValues.length; index++) {
             const element = contentValues[index];
-            let title =  element["title"];
+            let title = element["title"];
             let url = element['url'];
-                
-            let  link  = document.createElement('a');
+
+            let link = document.createElement('a');
             link.innerText = title;
             link.href = url
 
-            let  li = document.createElement('li');
+            let li = document.createElement('li');
             li.appendChild(link);
 
             ul.appendChild(li);
@@ -39,4 +41,5 @@
         document.body.appendChild(ul);
     </script>
 </body>
+
 </html>

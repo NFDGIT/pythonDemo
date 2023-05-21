@@ -7,7 +7,6 @@ from python import blockchain
 
 import json
 import os
-from flask import send_from_directory
 
 from uuid import uuid4
 from flask import Flask,jsonify,request

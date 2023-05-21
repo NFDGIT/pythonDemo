@@ -1,43 +1,46 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>彭辉的网站</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-  
-    <link rel="stylesheet" type="text/css" media="screen" href="common/css/main.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="main/css/main.css" />
-    <script src="/common/js/main.js"></script>
-    <script src="/main/js/main.js"></script>
-    
-   
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>彭辉的网站</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" type="text/css" media="screen" href="common/css/main.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="main/css/main.css" />
+        <script src="/common/js/main.js"></script>
+        <script src="/main/js/main.js"></script>
+
+
 </head>
+
 <body>
         <script>
-                initNavi("首页",false);
+                initNavi("首页", false);
         </script>
-        <div class="content">                                 
-        </div>                                       
+        <div class="content">
+        </div>
 
         <script>
-               let tabbarValues = ['首页','视频','我的']
-               let contentUrls = ['https://swift.utools.club/main/html/funcs.html','https://www.qq.com','../../vue/html/index.html']
+                let tabbarValues = ['首页', '视频', '我的']
+                let contentUrls = ['../../main/html/funcs.html', 'https://www.qq.com', '../../vue/html/index.html']
 
-                initTabbar(tabbarValues,function (index) {
-                     refreshUI(tabbarValues[index],contentUrls[index]);
+                initTabbar(tabbarValues, function (index) {
+                        refreshUI(tabbarValues[index], contentUrls[index]);
 
                 });
                 refreshTabbar(0);
 
-        </script>  
+        </script>
         <script>
                 layout();
-        </script>  
-        
+        </script>
+
         <script>
-    
+
         </script>
 
 </body>
+
 </html>
